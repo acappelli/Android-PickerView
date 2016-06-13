@@ -24,13 +24,9 @@ import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.ScheduledFuture;
 import java.util.concurrent.TimeUnit;
 
-/**
- * 3d滚轮控件
- */
 public class WheelView extends View {
 
     public enum ACTION {
-        // 点击，滑翔(滑到尽头)，拖拽事件
         CLICK, FLING, DAGGLE
     }
     Context context;
@@ -49,63 +45,51 @@ public class WheelView extends View {
 
     WheelAdapter adapter;
 
-    private String label;//附加单位
-    int textSize;//选项的文字大小
-    boolean customTextSize;//自定义文字大小，为true则用于使setTextSize函数无效，只能通过xml修改
+    private String label;
+    int textSize;
+    boolean customTextSize;
     int maxTextWidth;
     int maxTextHeight;
-    float itemHeight;//每行高度
+    float itemHeight;
 
     int textColorOut;
     int textColorCenter;
     int dividerColor;
 
-    // 条目间距倍数
     static final float lineSpacingMultiplier = 1.4F;
     boolean isLoop;
 
-    // 第一条线Y坐标值
     float firstLineY;
-    //第二条线Y坐标
     float secondLineY;
-    //中间Y坐标
     float centerY;
 
-    //滚动总高度y值
     int totalScrollY;
-    //初始化默认选中第几个
     int initPosition;
-    //选中的Item是第几个
     private int selectedItem;
     int preCurrentIndex;
-    //滚动偏移值,用于记录滚动了多少个item
     int change;
 
-    // 显示几个条目
     int itemsVisible = 11;
 
     int measuredHeight;
     int measuredWidth;
 
-    // 半圆周长
     int halfCircumference;
-    // 半径
     int radius;
 
     private int mOffset = 0;
     private float previousY = 0;
     long startTime = 0;
 
-    // 修改这个值可以改变滑行速度
     private static final int VELOCITYFLING = 5;
     int widthMeasureSpec;
 
     private int mGravity = Gravity.CENTER;
-    private int drawCenterContentStart = 0;//中间选中文字开始绘制位置
-    private int drawOutContentStart = 0;//非中间文字开始绘制位置
-    private static final float SCALECONTENT = 0.8F;//非中间文字则用此控制高度，压扁形成3d错觉
-    private static final float CENTERCONTENTOFFSET = 6;//中间文字文字居中需要此偏移值
-    private static final String GETPICKERVIEWTEXT = "getPickerViewText";//反射的方法名
+    private int drawCenterContentStart = 0;
+    private int drawOutContentStart = 0;
+    private static final float SCALECONTENT = 0.8F;
+    private static final float CENTERCONTENTOFFSET = 6;
+    private static final String GETPICKERVIEWTEXT = "getPickerViewText";
 
     public WheelView(Context context) {
         this(context, null);
@@ -116,7 +100,6 @@ public class WheelView extends View {
         textColorOut = getResources().getColor(R.color.pickerview_wheelview_textcolor_out);
         textColorCenter = getResources().getColor(R.color.pickerview_wheelview_textcolor_center);
         dividerColor = getResources().getColor(R.color.pickerview_wheelview_textcolor_divider);
-        //配合customTextSize使用，customTextSize为true才会发挥效果
         textSize = getResources().getDimensionPixelSize(R.dimen.pickerview_textsize);
         customTextSize = getResources().getBoolean(R.bool.pickerview_customTextSize);
         if(attrs != null) {
@@ -199,9 +182,6 @@ public class WheelView extends View {
         preCurrentIndex = initPosition;
     }
 
-    /**
-     * 计算最大len的Text的宽高度
-     */
     private void measureTextWidthHeight() {
         Rect rect = new Rect();
         for (int i = 0; i < adapter.getItemsCount(); i++) {
@@ -230,7 +210,6 @@ public class WheelView extends View {
                 mOffset = -mOffset;
             }
         }
-        //停止的时候，位置有偏移，不是全部都能正确停止到中间位置的，这里把文字位置挪回中间去
         mFuture = mExecutor.scheduleWithFixedDelay(new SmoothScrollTimerTask(this, mOffset), 0, 10, TimeUnit.MILLISECONDS);
     }
 
@@ -247,10 +226,6 @@ public class WheelView extends View {
         }
     }
 
-    /**
-     * 设置是否循环滚动
-     * @param cyclic
-     */
     public final void setCyclic(boolean cyclic) {
         isLoop = cyclic;
     }
@@ -437,11 +412,6 @@ public class WheelView extends View {
         return index;
     }
 
-    /**
-     * 根据传进来的对象反射出getPickerViewText()方法，来获取需要显示的值
-     * @param item
-     * @return
-     */
     private String getContentText(Object item) {
         String contentText = item.toString();
         try {
@@ -553,18 +523,10 @@ public class WheelView extends View {
         return true;
     }
 
-    /**
-     * 获取Item个数
-     * @return
-     */
     public int getItemsCount() {
         return adapter != null ? adapter.getItemsCount() : 0;
     }
 
-    /**
-     * 附加在右边的单位字符串
-     * @param label
-     */
     public void setLabel(String label){
         this.label = label;
     }

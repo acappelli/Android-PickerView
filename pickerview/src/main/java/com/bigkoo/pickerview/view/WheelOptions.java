@@ -133,13 +133,6 @@ public class WheelOptions<T> {
 			wv_option2.setOnItemSelectedListener(wheelListener_option2);
 	}
 
-	/**
-	 * 设置选项的单位
-	 * 
-	 * @param label1
-	 * @param label2
-	 * @param label3
-	 */
 	public void setLabels(String label1, String label2, String label3) {
 		if (label1 != null)
 			wv_option1.setLabel(label1);
@@ -149,49 +142,27 @@ public class WheelOptions<T> {
 			wv_option3.setLabel(label3);
 	}
 
-	/**
-	 * 设置是否循环滚动
-	 * 
-	 * @param cyclic
-	 */
 	public void setCyclic(boolean cyclic) {
 		wv_option1.setCyclic(cyclic);
 		wv_option2.setCyclic(cyclic);
 		wv_option3.setCyclic(cyclic);
 	}
 
-	/**
-	 * 分别设置第一二三级是否循环滚动
-	 *
-	 * @param cyclic1,cyclic2,cyclic3
-	 */
 	public void setCyclic(boolean cyclic1,boolean cyclic2,boolean cyclic3) {
         wv_option1.setCyclic(cyclic1);
         wv_option2.setCyclic(cyclic2);
         wv_option3.setCyclic(cyclic3);
 	}
-    /**
-     * 设置第二级是否循环滚动
-     *
-     * @param cyclic
-     */
-    public void setOption2Cyclic(boolean cyclic) {
+
+	public void setOption2Cyclic(boolean cyclic) {
         wv_option2.setCyclic(cyclic);
     }
-/**
-     * 设置第三级是否循环滚动
-     *
-     * @param cyclic
-     */
+
     public void setOption3Cyclic(boolean cyclic) {
         wv_option3.setCyclic(cyclic);
     }
 
-	/**
-	 * 返回当前选中的结果对应的位置数组 因为支持三级联动效果，分三个级别索引，0，1，2
-	 * 
-	 * @return
-	 */
+
 	public int[] getCurrentItems() {
 		int[] currentItems = new int[3];
 		currentItems[0] = wv_option1.getCurrentItem();
